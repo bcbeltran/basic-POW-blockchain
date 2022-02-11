@@ -85,10 +85,25 @@ def mine_block():
                 'previous_hash': block['previous_hash']}
     return jsonify(response), 200
 
+
+# Getting the full blockchain
+
 @app.route('/get_chain', methods=['GET'])
 def get_chain():
     response = {'chain': blockchain.chain,
                 'length': len(blockchain.chain)}
+    return jsonify(response), 200
+
+
+# Checking if the blockchain is valid
+
+@app.route('/valid_chain', methods=['GET'])
+def valid_chain():
+    valid_chain = blockchain.is_chain_valid(blockchain.chain)
+    if valid_chain:
+        response = { 'message': 'Bingo bango! The blockchain is valid.'}
+    else:
+        response = { 'message': 'Hold everything! The blockchain is NOT valid.'}
     return jsonify(response), 200
 
 
